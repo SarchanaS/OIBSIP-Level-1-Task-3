@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temperature Converter</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #a18cd1, #fbc2eb); /* fixed soft purple-pink gradient */
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: #ffffff;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      border-radius: 20px;
+      padding: 40px 50px;  /* reduced padding */
+      width: 400px;        /* smaller width */
+      text-align: center;
+      transition: 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 45px rgba(0,0,0,0.2);
+    }
+
+    .emoji {
+      font-size: 2.5rem;
+      animation: float 3s ease-in-out infinite;
+      margin-bottom: 8px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #6a11cb;
+      margin-bottom: 25px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 16px;
+      color: #333;
+      background: #f9f9f9;
+      transition: 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #6a11cb;
+      box-shadow: 0 0 8px rgba(106,17,203,0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      margin-top: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(106,17,203,0.6);
+    }
+
+    .result {
+      margin-top: 25px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="emoji">🌡️</div>
+    <h1>Temperature Converter</h1>
+
+    <input type="number" id="tempInput" placeholder="Enter temperature" />
+
+    <select id="inputUnit">
+      <option value="C">Celsius (°C)</option>
+      <option value="F">Fahrenheit (°F)</option>
+      <option value="K">Kelvin (K)</option>
+    </select>
+
+    <select id="outputUnit">
+      <option value="C">Celsius (°C)</option>
+      <option value="F">Fahrenheit (°F)</option>
+      <option value="K">Kelvin (K)</option>
+    </select>
+
+    <button onclick="convertTemp()">Convert</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function convertTemp() {
+      const tempInput = document.getElementById("tempInput").value;
+      const inputUnit = document.getElementById("inputUnit").value;
+      const outputUnit = document.getElementById("outputUnit").value;
+      const result = document.getElementById("result");
+
+      if (tempInput === "" || isNaN(tempInput)) {
+        result.innerHTML = "⚠️ Please enter a valid number!";
+        return;
+      }
+
+      let temp = parseFloat(tempInput);
+      let convertedTemp;
+
+      if (inputUnit === "F") temp = (temp - 32) * 5/9;
+      else if (inputUnit === "K") temp = temp - 273.15;
+
+      if (outputUnit === "F") convertedTemp = (temp * 9/5) + 32;
+      else if (outputUnit === "K") convertedTemp = temp + 273.15;
+      else convertedTemp = temp;
+
+      result.innerHTML = `✅ ${convertedTemp.toFixed(2)} °${outputUnit}`;
+    }
+  </script>
+</body>
+</html>
